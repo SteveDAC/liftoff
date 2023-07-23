@@ -140,6 +140,14 @@ class _CommentWidget extends HookWidget {
     return context.read<AccountsStore>().defaultUserDataFor(instanceHost);
   }
 
+  String extractName(String name) {
+    final str = name;
+    final parts = str.split('@');
+    final firstNonEmptyPart =
+        parts.firstWhere((part) => part.isNotEmpty, orElse: () => '');
+    return firstNonEmptyPart;
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -269,7 +277,8 @@ class _CommentWidget extends HookWidget {
                                       onTap: () => goToUser.fromPersonSafe(
                                           context, creator),
                                       child: Text(
-                                        creator.originPreferredName,
+                                        extractName(
+                                            creator.originPreferredName),
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
